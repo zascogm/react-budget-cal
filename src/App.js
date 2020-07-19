@@ -15,7 +15,7 @@ function App() {
   const [expenses, setExpenses] = useState(initialExpenses);
   const [charge, setCharge] = useState('');
   const [amount, setAmount] = useState('');
-  console.log(setExpenses);
+  const [alert,]
 
   const handleCharge = e => {
     setCharge(e.target.value);
@@ -27,6 +27,15 @@ function App() {
   
   const handleSubmit = e => {
     e.preventDefault();
+
+    if (charge !== '' && amount > 0) {
+      const singleExpense = {id: uuidv4(), charge, amount};
+      setExpenses([...expenses, singleExpense]);
+      setCharge('');
+      setAmount('');
+    } else {
+      //call handle alert call
+    }
   }
 
   return (
@@ -47,7 +56,7 @@ function App() {
         total spending: {" "}
         <span className="total">
           $ {expenses.reduce((acc, curr) => {
-            return (acc += curr.amount);
+            return (acc += parseInt(curr.amount));
           }, 0)}
         </span>
       </h1>
