@@ -15,7 +15,7 @@ function App() {
   const [expenses, setExpenses] = useState(initialExpenses);
   const [charge, setCharge] = useState('');
   const [amount, setAmount] = useState('');
-  const [alert,]
+  // const [alert,]
 
   const handleCharge = e => {
     setCharge(e.target.value);
