@@ -33,8 +33,7 @@ function App() {
       setAlert({show: false});
     }, 3000);
   };
-
-  // I have a annoying problem with this method that is not prompting my alert messages
+  
   const handleSubmit = e => {
     e.preventDefault();
 
