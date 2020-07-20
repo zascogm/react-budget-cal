@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import ExpenseList from './components/ExpenseList';
 import ExpenseForm from './components/ExpenseForm';
 import Alert from './components/Alert';
 import {v4 as uuidv4} from 'uuid';
 
-const initialExpenses = [
-  { id:uuidv4(), charge:"rent", amount:1600 },
-  { id:uuidv4(), charge:"car payment", amount:400 },
-  { id:uuidv4(), charge:"credit card bill", amount:1200 },
-];
+// const initialExpenses = [
+//   { id:uuidv4(), charge:"rent", amount:1600 },
+//   { id:uuidv4(), charge:"car payment", amount:400 },
+//   { id:uuidv4(), charge:"credit card bill", amount:1200 },
+// ];
+
+const initialExpenses = localStorage.getItem('expenses') ? JSON.parse(localStorage.getItem('expenses')) : [];
 
 function App() {
   const [expenses, setExpenses] = useState(initialExpenses);
@@ -18,6 +20,10 @@ function App() {
   const [alert, setAlert] = useState({show:false});
   const [edit, setEdit] = useState(false);
   const [id, setId] = useState(0);
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }, [expenses]);
 
   const handleCharge = e => {
     setCharge(e.target.value);
@@ -33,7 +39,7 @@ function App() {
       setAlert({show: false});
     }, 3000);
   };
-  
+
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -64,19 +70,19 @@ function App() {
     handleAlert({type: "danger", text: "all items deleted"});
   };
 
-  const handleDelete = (id)  => {
-    let tempExpenses = expenses.filter(item => item.id !== id);
+  const handleDelete = (idItem)  => {
+    let tempExpenses = expenses.filter(item => item.id !== idItem);
     setExpenses(tempExpenses);
     handleAlert({type: "danger", text: "item deleted"});
   };
 
-  const handleEdit = (id)  => {
-    let expense = expenses.find(item => item.id === id);
+  const handleEdit = (idItem)  => {
+    let expense = expenses.find(item => item.id === idItem);
     let {charge, amount} = expense;
     setCharge(charge);
     setAmount(amount);
     setEdit(true);
-    setId(id);
+    setId(idItem);
   };
 
   return (
